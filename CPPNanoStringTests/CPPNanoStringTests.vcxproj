@@ -33,11 +33,14 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClInclude Include="nano64Bytes.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="waningsBlacklist.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FixedString.cpp" />
+    <ClCompile Include="nano64File1Tests.cpp" />
+    <ClCompile Include="nano64File2Tests.cpp" />
     <ClCompile Include="NanoString.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
