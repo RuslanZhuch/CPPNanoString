@@ -1,5 +1,5 @@
 #pragma once
-#include "../CPPNanoString/CPPNanoString.h"
+#include "CPPNanoString.h"
 
 nnstrINIT_TABLES(64,
 	"apple",
@@ -7,6 +7,6 @@ nnstrINIT_TABLES(64,
 	"banana"
 );
 
-#include "../CPPNanoString/NanoString.h"
+#include "NanoString.h"
 
 nnstrINIT_LITERALS(64, _nn64);

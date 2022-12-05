@@ -23,6 +23,7 @@
     <ClInclude Include="ErrorsCapture.h" />
     <ClInclude Include="FixedString.h" />
     <ClInclude Include="NanoString.h" />
+    <ClInclude Include="warningsBlacklist.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

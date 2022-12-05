@@ -1,5 +1,9 @@
 #pragma once
+
+#pragma warning (push)
+#include "warningsBlacklist.h"
 #include <string_view>
+#pragma warning (pop)
 
 #include "ErrorsCapture.h"
 
@@ -9,6 +13,8 @@ namespace nnstr
 	template <size_t maxSize>
 	struct FixedString
 	{
+		constexpr FixedString() = default;
+
 		constexpr FixedString(std::string_view str) noexcept
 		{
 			this->init(str);
@@ -16,10 +22,6 @@ namespace nnstr
 		constexpr FixedString(const char* str) noexcept
 		{
 			this->init(str);
-		}
-		constexpr auto operator*() noexcept
-		{
-			return std::string_view(this->data);
 		}
 		constexpr void init(std::string_view str) noexcept
 		{

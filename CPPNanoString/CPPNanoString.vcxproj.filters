@@ -18,5 +18,6 @@
     <ClInclude Include="CPPNanoString.h">
       <Filter>lib</Filter>
     </ClInclude>
+    <ClInclude Include="warningsBlacklist.h" />
   </ItemGroup>
 </Project>

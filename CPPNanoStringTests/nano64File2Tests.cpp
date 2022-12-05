@@ -6,15 +6,15 @@ TEST(nano64BytesFile2, creationWithLiterals)
 {
 	{
 		const auto ns{ "orange"_nn64 };
-		EXPECT_EQ(*ns, 2);
+		EXPECT_EQ(*ns, static_cast<size_t>(2));
 	}
 	{
 		//This file included after "nano64File1Tests", therefore "kivi" has an index 5
 		const auto ns{ "kiwi"_nn64 };
-		EXPECT_EQ(*ns, 5);
+		EXPECT_EQ(*ns, static_cast<size_t>(5));
 	}
 	{
 		constexpr auto ns{ "orange"_nn64 };
-		EXPECT_EQ(*ns, 2);
+		EXPECT_EQ(*ns, static_cast<size_t>(2));
 	}
 }
