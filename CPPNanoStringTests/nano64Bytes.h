@@ -1,12 +1,10 @@
 #pragma once
 #include "CPPNanoString.h"
+#include "NanoString.h"
 
-nnstrINIT_TABLES(64,
+nnstrINIT_TABLES(_nn64, std::mutex, mut64, std::vector, runtime64, 64, std::array, compiletime64,
 	"apple",
 	"orange",
 	"banana"
 );
 
-#include "NanoString.h"
-
-nnstrINIT_LITERALS(64, _nn64);

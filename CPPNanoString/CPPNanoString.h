@@ -6,25 +6,34 @@
 #include <array>
 #include <atomic>
 #include <mutex>
+#include <tuple>
+#include <type_traits>
 #pragma warning (pop)
 
 #include "FixedString.h"
+#include "NanoString.h"
 
-#define nnstrINIT_TABLES(maxSize, ...) \
-namespace nnstr {	\
-	inline constexpr auto predefinedStringsTable = std::to_array<nnstr::FixedString<maxSize>>({__VA_ARGS__}); \
-	inline std::vector<nnstr::FixedString<maxSize>> runtimeStringsTable;	\
-	inline std::mutex mutex;\
-};
+#define nnstrNUM_ARGS(...) (std::tuple_size<decltype(std::make_tuple(__VA_ARGS__))>::value)
 
-#define nnstrINIT_LITERALS(maxSize, lit)	\
+#define nnstrINIT_TABLES(lit, mutexType, mutexName, runtimeType, runtimeName, maxSizePerString, compiletimeType, compiletimeName, ...) \
+inline constexpr compiletimeType<nnstr::FixedString<maxSizePerString>, nnstrNUM_ARGS(__VA_ARGS__)> compiletimeName{{__VA_ARGS__}}; \
+inline runtimeType<nnstr::FixedString<maxSizePerString>> runtimeName;	\
+inline mutexType mutexName;\
+\
 namespace nnstr::literals	\
 {	\
-	template<FixedString<64> FS>	\
+	template<FixedString<maxSizePerString> FS>	\
 	constexpr auto operator"" lit()	\
 	{	\
-		return NanoString::make<64, FS>();	\
+		if (std::is_constant_evaluated())	\
+			return NanoString::make<maxSizePerString, FS, compiletimeName>();	\
+		else	\
+			return NanoString::make<maxSizePerString, FS, compiletimeName>(runtimeName, mutexName);	\
 	}	\
 };	\
 \
+[[nodiscard]] static constexpr auto make##lit(std::string_view str) noexcept \
+{\
+	return nnstr::NanoString::make<maxSizePerString, compiletimeName>(str, runtimeName, mutexName);	\
+}	\
 using namespace nnstr::literals;	

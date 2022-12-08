@@ -7,28 +7,27 @@
 
 #include "CPPNanoString.h"
 
-nnstrINIT_TABLES(8, 
-	"1234", 
+nnstrINIT_TABLES(__nn8, std::mutex, mutex, std::vector, runtimeStringsTable, 8, 
+	std::array, predefinedStringsTable,
+	"1234",
 	"Str 2"
 );
-
-#include "NanoString.h"
 
 TEST(NanoString, creationConstant)
 {
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234">() };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>() };
 		EXPECT_EQ(*ns, static_cast<size_t>(1));
 	}
 
 	{
-		constexpr nnstr::NanoString nsFailed{ nnstr::NanoString::make<8, "12345">() };
+		constexpr nnstr::NanoString nsFailed{ nnstr::NanoString::make<8, "12345", predefinedStringsTable>() };
 		EXPECT_EQ(*nsFailed, static_cast<size_t>(0));
 	}
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2">() };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>() };
 		EXPECT_EQ(*ns, static_cast<size_t>(2));
 	}
 
@@ -38,27 +37,27 @@ TEST(NanoString, creationRuntime)
 {
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex">() };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
 	}
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex2">() };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex2", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(*ns, static_cast<size_t>(4));
 	}
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex">() };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
 	}
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234">() };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(*ns, static_cast<size_t>(1));
 	}
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2">() };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(*ns, static_cast<size_t>(2));
 	}
 
@@ -68,40 +67,40 @@ TEST(NanoString, comparison)
 {
 
 	{
-		const auto str1{ nnstr::NanoString::make<8, "1234">() };
-		const auto str2{ nnstr::NanoString::make<8, "1234">() };
+		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		const auto str2{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_EQ(str1, str2);
 	}
 
 	{
-		const auto str1{ nnstr::NanoString::make<8, "1234">() };
-		const auto str2{ nnstr::NanoString::make<8, "Str 2">() };
+		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		const auto str2{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex) };
 		EXPECT_NE(str1, str2);
 	}
 
 }
 
-template<typename T, T Val, char ... S>
-[[nodiscard]] consteval auto toStringLiteral()
-{
-	
-	if constexpr (Val == 0)
-	{
-		constexpr char data[sizeof...(S) + 1]{ S... };
-		return nnstr::FixedString<8>(data);
-	}
-	else
-		return toStringLiteral<T, Val / 10, (Val % 10) + '0', S...>();
-}
-
-template<size_t N, nnstr::FixedString<8> ... Strings>
-[[nodiscard]] consteval auto generateArrayOfStrings()
-{
-	if constexpr (N == 0)
-		return std::to_array<nnstr::FixedString<8>>({ Strings... });
-	else
-		return generateArrayOfStrings<N - 1, toStringLiteral<size_t, N>(), Strings...>();
-}
+//template<typename T, T Val, char ... S>
+//[[nodiscard]] consteval auto toStringLiteral()
+//{
+//	
+//	if constexpr (Val == 0)
+//	{
+//		constexpr char data[sizeof...(S) + 1]{ S... };
+//		return nnstr::FixedString<8>(data);
+//	}
+//	else
+//		return toStringLiteral<T, Val / 10, (Val % 10) + '0', S...>();
+//}
+//
+//template<size_t N, nnstr::FixedString<8> ... Strings>
+//[[nodiscard]] consteval auto generateArrayOfStrings()
+//{
+//	if constexpr (N == 0)
+//		return std::to_array<nnstr::FixedString<8>>({ Strings... });
+//	else
+//		return generateArrayOfStrings<N - 1, toStringLiteral<size_t, N>(), Strings...>();
+//}
 
 //TEST(NanoString, mutlithreading)
 //{
