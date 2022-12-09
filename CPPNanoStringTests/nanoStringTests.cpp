@@ -4,6 +4,8 @@
 #include <thread>
 #include <string>
 #include <numeric>
+#include <thread>
+#include <latch>
 
 #include "CPPNanoString.h"
 
@@ -80,43 +82,98 @@ TEST(NanoString, comparison)
 
 }
 
-//template<typename T, T Val, char ... S>
-//[[nodiscard]] consteval auto toStringLiteral()
-//{
-//	
-//	if constexpr (Val == 0)
-//	{
-//		constexpr char data[sizeof...(S) + 1]{ S... };
-//		return nnstr::FixedString<8>(data);
-//	}
-//	else
-//		return toStringLiteral<T, Val / 10, (Val % 10) + '0', S...>();
-//}
-//
-//template<size_t N, nnstr::FixedString<8> ... Strings>
-//[[nodiscard]] consteval auto generateArrayOfStrings()
-//{
-//	if constexpr (N == 0)
-//		return std::to_array<nnstr::FixedString<8>>({ Strings... });
-//	else
-//		return generateArrayOfStrings<N - 1, toStringLiteral<size_t, N>(), Strings...>();
-//}
+TEST(NanoString, mutlithreading)
+{
 
-//TEST(NanoString, mutlithreading)
-//{
-//
-//	constexpr size_t numOfElements{ 100 };
-////	constexpr auto v = toStringLiteral<size_t, 100>();
-//	constexpr auto source{ generateArrayOfStrings<numOfElements>() };
-////
-////	std::vector<nnstr::NanoString> target1;
-////	target1.reserve(numOfElements);
-////	std::jthread thr1([&](std::stop_token token)
-////	{
-////		for(size_t id{0}; id < numOfElements; ++id)
-////		{
-////			target1.push_back(nnstr::NanoString::make<8, source[id]>());
-////		}
-////	});
-//
-//}
+	constexpr size_t numOfStrings{ 30 };
+
+	std::vector<nnstr::NanoString> strings1;
+	strings1.reserve(numOfStrings);
+
+	std::latch latch(2);
+	auto thread1{ std::jthread([&]()
+	{
+		latch.arrive_and_wait();
+
+		strings1.push_back("str0"__nn8);
+		strings1.push_back("str1"__nn8);
+		strings1.push_back("str2"__nn8);
+		strings1.push_back("str3"__nn8);
+		strings1.push_back("str4"__nn8);
+		strings1.push_back("str5"__nn8);
+		strings1.push_back("str6"__nn8);
+		strings1.push_back("str7"__nn8);
+		strings1.push_back("str8"__nn8);
+		strings1.push_back("str9"__nn8);
+		strings1.push_back("str10"__nn8);
+		strings1.push_back("str11"__nn8);
+		strings1.push_back("str12"__nn8);
+		strings1.push_back("str13"__nn8);
+		strings1.push_back("str14"__nn8);
+		strings1.push_back("str15"__nn8);
+		strings1.push_back("str16"__nn8);
+		strings1.push_back("str17"__nn8);
+		strings1.push_back("str18"__nn8);
+		strings1.push_back("str19"__nn8);
+		strings1.push_back("str20"__nn8);
+		strings1.push_back("str21"__nn8);
+		strings1.push_back("str22"__nn8);
+		strings1.push_back("str23"__nn8);
+		strings1.push_back("str24"__nn8);
+		strings1.push_back("str25"__nn8);
+		strings1.push_back("str26"__nn8);
+		strings1.push_back("str27"__nn8);
+		strings1.push_back("str28"__nn8);
+		strings1.push_back("str29"__nn8);
+
+	}) };
+
+	std::vector<nnstr::NanoString> strings2;
+	strings2.reserve(numOfStrings);
+
+	auto thread2{ std::jthread([&]()
+	{
+		latch.arrive_and_wait();
+
+		strings2.push_back("str0"__nn8);
+		strings2.push_back("str1"__nn8);
+		strings2.push_back("str2"__nn8);
+		strings2.push_back("str3"__nn8);
+		strings2.push_back("str4"__nn8);
+		strings2.push_back("str5"__nn8);
+		strings2.push_back("str6"__nn8);
+		strings2.push_back("str7"__nn8);
+		strings2.push_back("str8"__nn8);
+		strings2.push_back("str9"__nn8);
+		strings2.push_back("str10"__nn8);
+		strings2.push_back("str11"__nn8);
+		strings2.push_back("str12"__nn8);
+		strings2.push_back("str13"__nn8);
+		strings2.push_back("str14"__nn8);
+		strings2.push_back("str15"__nn8);
+		strings2.push_back("str16"__nn8);
+		strings2.push_back("str17"__nn8);
+		strings2.push_back("str18"__nn8);
+		strings2.push_back("str19"__nn8);
+		strings2.push_back("str20"__nn8);
+		strings2.push_back("str21"__nn8);
+		strings2.push_back("str22"__nn8);
+		strings2.push_back("str23"__nn8);
+		strings2.push_back("str24"__nn8);
+		strings2.push_back("str25"__nn8);
+		strings2.push_back("str26"__nn8);
+		strings2.push_back("str27"__nn8);
+		strings2.push_back("str28"__nn8);
+		strings2.push_back("str29"__nn8);
+
+	}) };
+
+	thread1.join();
+	thread2.join();
+
+	for (size_t stringId{ 0 }; stringId < numOfStrings; ++stringId)
+	{
+		EXPECT_EQ(strings1[stringId], strings2[stringId]);
+	}
+
+}
