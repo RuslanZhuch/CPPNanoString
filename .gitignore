@@ -55,3 +55,6 @@ Release
 ipch
 *sdf
 .vs
+*.vcxproj
+*.filters
+*.sln
