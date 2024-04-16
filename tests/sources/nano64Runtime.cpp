@@ -19,11 +19,11 @@ TEST(nano64Runtime, creation)
 {
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<64, compiletime64run>(trainStr, runtime64run, mut64run) };
+		nnstr::NanoString ns{ nnstr::NanoString::make<64, compiletime64run>(trainStr, runtime64run, mut64run_nn64run) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
 	}
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<64, compiletime64run>(tankStr, runtime64run, mut64run) };
+		nnstr::NanoString ns{ nnstr::NanoString::make<64, compiletime64run>(tankStr, runtime64run, mut64run_nn64run) };
 		EXPECT_EQ(*ns, static_cast<size_t>(4));
 	}
 	{

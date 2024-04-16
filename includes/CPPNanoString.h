@@ -18,7 +18,7 @@
 #define nnstrINIT_TABLES(lit, mutexType, mutexName, runtimeType, runtimeName, maxSizePerString, compiletimeType, compiletimeName, ...) \
 inline constexpr compiletimeType<nnstr::FixedString<maxSizePerString>, nnstrNUM_ARGS(__VA_ARGS__)> compiletimeName{{__VA_ARGS__}}; \
 inline runtimeType<nnstr::FixedString<maxSizePerString>> runtimeName;	\
-inline mutexType mutexName;\
+inline mutexType mutexName##lit;\
 \
 namespace nnstr::literals	\
 {	\
@@ -28,12 +28,12 @@ namespace nnstr::literals	\
 		if (std::is_constant_evaluated())	\
 			return NanoString::make<maxSizePerString, FS, compiletimeName>();	\
 		else	\
-			return NanoString::make<maxSizePerString, FS, compiletimeName>(runtimeName, mutexName);	\
+			return NanoString::make<maxSizePerString, FS, compiletimeName>(runtimeName, mutexName##lit);	\
 	}	\
 };	\
 \
 [[nodiscard]] static constexpr auto make##lit(std::string_view str) noexcept \
 {\
-	return nnstr::NanoString::make<maxSizePerString, compiletimeName>(str, runtimeName, mutexName);	\
+	return nnstr::NanoString::make<maxSizePerString, compiletimeName>(str, runtimeName, mutexName##lit);	\
 }	\
 using namespace nnstr::literals;	

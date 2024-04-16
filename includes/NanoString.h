@@ -11,6 +11,8 @@
 namespace nnstr
 {
 
+    using type_t = uint64_t;
+
 	class NanoString
 	{
 	public:
@@ -44,10 +46,10 @@ namespace nnstr
 
             auto fStr{ std::find_if(predefinedStringsTable.begin(), predefinedStringsTable.end(), compareFnc) };
 
-            NanoString fs;
+            NanoString fs{};
             if (fStr != predefinedStringsTable.end())
             {
-                fs.index = static_cast<uint64_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
+                fs.index = static_cast<type_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
                 return fs;
             }
 
@@ -55,7 +57,7 @@ namespace nnstr
             const auto fStrRuntime{ std::find_if(runtimeStringsTable.begin(), runtimeStringsTable.end(), compareFnc) };
             if (fStrRuntime != runtimeStringsTable.end())
             {
-                fs.index = static_cast<uint64_t>(std::distance(runtimeStringsTable.begin(), fStrRuntime)) + predefinedStringsTable.size() + 1;
+                fs.index = static_cast<type_t>(std::distance(runtimeStringsTable.begin(), fStrRuntime)) + predefinedStringsTable.size() + 1;
                 return fs;
             }
             runtimeStringsTable.push_back(str);
@@ -82,10 +84,10 @@ namespace nnstr
 
             constexpr auto fStr{ std::find_if(predefinedStringsTable.begin(), predefinedStringsTable.end(), compareFnc) };
 
-            NanoString fs;
+            NanoString fs{};
             if (fStr != predefinedStringsTable.end())
             {
-                fs.index = static_cast<uint64_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
+                fs.index = static_cast<type_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
                 return fs;
             }
             return fs;
@@ -102,10 +104,10 @@ namespace nnstr
 
             constexpr auto fStr{ std::find_if(predefinedStringsTable.begin(), predefinedStringsTable.end(), compareFnc) };
 
-            NanoString fs;
+            NanoString fs{};
             if (fStr != predefinedStringsTable.end())
             {
-                fs.index = static_cast<uint64_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
+                fs.index = static_cast<type_t>(std::distance(predefinedStringsTable.begin(), fStr)) + 1;
                 return fs;
             }
 
@@ -113,7 +115,7 @@ namespace nnstr
             const auto fStrRuntime{ std::find_if(runtimeStringsTable.begin(), runtimeStringsTable.end(), compareFnc) };
             if (fStrRuntime != runtimeStringsTable.end())
             {
-                fs.index = static_cast<uint64_t>(std::distance(runtimeStringsTable.begin(), fStrRuntime)) + predefinedStringsTable.size() + 1;
+                fs.index = static_cast<type_t>(std::distance(runtimeStringsTable.begin(), fStrRuntime)) + predefinedStringsTable.size() + 1;
                 return fs;
             }
             runtimeStringsTable.push_back(str);
@@ -123,7 +125,7 @@ namespace nnstr
         }
 
     private:
-        uint64_t index{};
+        type_t index;
 	};
 
 };

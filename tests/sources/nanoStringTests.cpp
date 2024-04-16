@@ -9,7 +9,7 @@
 
 #include "CPPNanoString.h"
 
-nnstrINIT_TABLES(__nn8, std::mutex, mutex, std::vector, runtimeStringsTable, 8, 
+nnstrINIT_TABLES(_nn8, std::mutex, mutex, std::vector, runtimeStringsTable, 8, 
 	std::array, predefinedStringsTable,
 	"1234",
 	"Str 2"
@@ -39,27 +39,27 @@ TEST(NanoString, creationRuntime)
 {
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
 	}
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex2", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex2", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(4));
 	}
 
 	{
-		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
 	}
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(1));
 	}
 
 	{
-		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(2));
 	}
 
@@ -69,14 +69,14 @@ TEST(NanoString, comparison)
 {
 
 	{
-		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
-		const auto str2{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
+		const auto str2{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(str1, str2);
 	}
 
 	{
-		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex) };
-		const auto str2{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex) };
+		const auto str1{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
+		const auto str2{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_NE(str1, str2);
 	}
 
@@ -95,36 +95,36 @@ TEST(NanoString, mutlithreading)
 	{
 		latch.arrive_and_wait();
 
-		strings1.push_back("str0"__nn8);
-		strings1.push_back("str1"__nn8);
-		strings1.push_back("str2"__nn8);
-		strings1.push_back("str3"__nn8);
-		strings1.push_back("str4"__nn8);
-		strings1.push_back("str5"__nn8);
-		strings1.push_back("str6"__nn8);
-		strings1.push_back("str7"__nn8);
-		strings1.push_back("str8"__nn8);
-		strings1.push_back("str9"__nn8);
-		strings1.push_back("str10"__nn8);
-		strings1.push_back("str11"__nn8);
-		strings1.push_back("str12"__nn8);
-		strings1.push_back("str13"__nn8);
-		strings1.push_back("str14"__nn8);
-		strings1.push_back("str15"__nn8);
-		strings1.push_back("str16"__nn8);
-		strings1.push_back("str17"__nn8);
-		strings1.push_back("str18"__nn8);
-		strings1.push_back("str19"__nn8);
-		strings1.push_back("str20"__nn8);
-		strings1.push_back("str21"__nn8);
-		strings1.push_back("str22"__nn8);
-		strings1.push_back("str23"__nn8);
-		strings1.push_back("str24"__nn8);
-		strings1.push_back("str25"__nn8);
-		strings1.push_back("str26"__nn8);
-		strings1.push_back("str27"__nn8);
-		strings1.push_back("str28"__nn8);
-		strings1.push_back("str29"__nn8);
+		strings1.push_back("str0"_nn8);
+		strings1.push_back("str1"_nn8);
+		strings1.push_back("str2"_nn8);
+		strings1.push_back("str3"_nn8);
+		strings1.push_back("str4"_nn8);
+		strings1.push_back("str5"_nn8);
+		strings1.push_back("str6"_nn8);
+		strings1.push_back("str7"_nn8);
+		strings1.push_back("str8"_nn8);
+		strings1.push_back("str9"_nn8);
+		strings1.push_back("str10"_nn8);
+		strings1.push_back("str11"_nn8);
+		strings1.push_back("str12"_nn8);
+		strings1.push_back("str13"_nn8);
+		strings1.push_back("str14"_nn8);
+		strings1.push_back("str15"_nn8);
+		strings1.push_back("str16"_nn8);
+		strings1.push_back("str17"_nn8);
+		strings1.push_back("str18"_nn8);
+		strings1.push_back("str19"_nn8);
+		strings1.push_back("str20"_nn8);
+		strings1.push_back("str21"_nn8);
+		strings1.push_back("str22"_nn8);
+		strings1.push_back("str23"_nn8);
+		strings1.push_back("str24"_nn8);
+		strings1.push_back("str25"_nn8);
+		strings1.push_back("str26"_nn8);
+		strings1.push_back("str27"_nn8);
+		strings1.push_back("str28"_nn8);
+		strings1.push_back("str29"_nn8);
 
 	}) };
 
@@ -135,36 +135,36 @@ TEST(NanoString, mutlithreading)
 	{
 		latch.arrive_and_wait();
 
-		strings2.push_back("str0"__nn8);
-		strings2.push_back("str1"__nn8);
-		strings2.push_back("str2"__nn8);
-		strings2.push_back("str3"__nn8);
-		strings2.push_back("str4"__nn8);
-		strings2.push_back("str5"__nn8);
-		strings2.push_back("str6"__nn8);
-		strings2.push_back("str7"__nn8);
-		strings2.push_back("str8"__nn8);
-		strings2.push_back("str9"__nn8);
-		strings2.push_back("str10"__nn8);
-		strings2.push_back("str11"__nn8);
-		strings2.push_back("str12"__nn8);
-		strings2.push_back("str13"__nn8);
-		strings2.push_back("str14"__nn8);
-		strings2.push_back("str15"__nn8);
-		strings2.push_back("str16"__nn8);
-		strings2.push_back("str17"__nn8);
-		strings2.push_back("str18"__nn8);
-		strings2.push_back("str19"__nn8);
-		strings2.push_back("str20"__nn8);
-		strings2.push_back("str21"__nn8);
-		strings2.push_back("str22"__nn8);
-		strings2.push_back("str23"__nn8);
-		strings2.push_back("str24"__nn8);
-		strings2.push_back("str25"__nn8);
-		strings2.push_back("str26"__nn8);
-		strings2.push_back("str27"__nn8);
-		strings2.push_back("str28"__nn8);
-		strings2.push_back("str29"__nn8);
+		strings2.push_back("str0"_nn8);
+		strings2.push_back("str1"_nn8);
+		strings2.push_back("str2"_nn8);
+		strings2.push_back("str3"_nn8);
+		strings2.push_back("str4"_nn8);
+		strings2.push_back("str5"_nn8);
+		strings2.push_back("str6"_nn8);
+		strings2.push_back("str7"_nn8);
+		strings2.push_back("str8"_nn8);
+		strings2.push_back("str9"_nn8);
+		strings2.push_back("str10"_nn8);
+		strings2.push_back("str11"_nn8);
+		strings2.push_back("str12"_nn8);
+		strings2.push_back("str13"_nn8);
+		strings2.push_back("str14"_nn8);
+		strings2.push_back("str15"_nn8);
+		strings2.push_back("str16"_nn8);
+		strings2.push_back("str17"_nn8);
+		strings2.push_back("str18"_nn8);
+		strings2.push_back("str19"_nn8);
+		strings2.push_back("str20"_nn8);
+		strings2.push_back("str21"_nn8);
+		strings2.push_back("str22"_nn8);
+		strings2.push_back("str23"_nn8);
+		strings2.push_back("str24"_nn8);
+		strings2.push_back("str25"_nn8);
+		strings2.push_back("str26"_nn8);
+		strings2.push_back("str27"_nn8);
+		strings2.push_back("str28"_nn8);
+		strings2.push_back("str29"_nn8);
 
 	}) };
 
