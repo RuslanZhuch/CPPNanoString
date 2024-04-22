@@ -11,7 +11,7 @@
 namespace nnstr
 {
 
-    using type_t = uint64_t;
+    using type_t = uint32_t;
 
 	class NanoString
 	{
