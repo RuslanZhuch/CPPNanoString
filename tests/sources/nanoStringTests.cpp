@@ -21,16 +21,19 @@ TEST(NanoString, creationConstant)
 	{
 		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>() };
 		EXPECT_EQ(*ns, static_cast<size_t>(1));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns), "1234"), 0);
 	}
 
 	{
 		constexpr nnstr::NanoString nsFailed{ nnstr::NanoString::make<8, "12345", predefinedStringsTable>() };
 		EXPECT_EQ(*nsFailed, static_cast<size_t>(0));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(nsFailed), ""), 0);
 	}
 
 	{
 		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>() };
 		EXPECT_EQ(*ns, static_cast<size_t>(2));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns), "Str 2"), 0);
 	}
 
 }
@@ -41,26 +44,40 @@ TEST(NanoString, creationRuntime)
 	{
 		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns, runtimeStringsTable), "Not ex"), 0);
+		EXPECT_EQ(std::strcmp(get_nn8(ns), "Not ex"), 0);
 	}
 
 	{
 		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex2", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(4));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns, runtimeStringsTable), "Not ex2"), 0);
+		EXPECT_EQ(std::strcmp(get_nn8(ns), "Not ex2"), 0);
 	}
 
 	{
 		nnstr::NanoString ns{ nnstr::NanoString::make<8, "Not ex", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(3));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns, runtimeStringsTable), "Not ex"), 0);
+		EXPECT_EQ(std::strcmp(get_nn8(ns), "Not ex"), 0);
 	}
 
 	{
 		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "1234", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(1));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns, runtimeStringsTable), "1234"), 0);
+		EXPECT_EQ(std::strcmp(get_nn8(ns), "1234"), 0);
 	}
 
 	{
 		constexpr nnstr::NanoString ns{ nnstr::NanoString::make<8, "Str 2", predefinedStringsTable>(runtimeStringsTable, mutex_nn8) };
 		EXPECT_EQ(*ns, static_cast<size_t>(2));
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(ns, runtimeStringsTable), "Str 2"), 0);
+		EXPECT_EQ(std::strcmp(get_nn8(ns), "Str 2"), 0);
+	}
+
+	{
+		EXPECT_EQ(std::strcmp(nnstr::NanoString::get<predefinedStringsTable>(nnstr::NanoString{}, runtimeStringsTable), ""), 0);
 	}
 
 }

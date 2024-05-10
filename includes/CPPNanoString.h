@@ -36,4 +36,8 @@ namespace nnstr::literals	\
 {\
 	return nnstr::NanoString::make<maxSizePerString, compiletimeName>(str, runtimeName, mutexName##lit);	\
 }	\
+[[nodiscard]] static auto get##lit(nnstr::NanoString nanoString) noexcept \
+{\
+	return nnstr::NanoString::get<compiletimeName>(nanoString, runtimeName);	\
+}	\
 using namespace nnstr::literals;	

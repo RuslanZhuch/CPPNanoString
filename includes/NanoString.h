@@ -13,6 +13,8 @@ namespace nnstr
 
     using type_t = uint32_t;
 
+    class NanoString;
+
 	class NanoString
 	{
 	public:
@@ -64,6 +66,33 @@ namespace nnstr
             fs.index = runtimeStringsTable.size() + predefinedStringsTable.size();
             return fs;
 
+        }
+
+
+        template <auto predefinedStringsTable>
+        [[nodiscard]] static const char* get(NanoString nanoString) noexcept
+        {
+            if ((nanoString.index > predefinedStringsTable.size()) || (nanoString.index == 0))
+                return "";
+            return predefinedStringsTable[nanoString.index - 1].data;
+        }
+
+        template <auto predefinedStringsTable>
+        [[nodiscard]] static const char* get(NanoString nanoString, auto&& runtimeStringsTable) noexcept
+        {
+            if ((nanoString.index > predefinedStringsTable.size() + runtimeStringsTable.size()) || (nanoString.index == 0))
+            {
+                return "";
+            }
+            else if (nanoString.index <= predefinedStringsTable.size())
+            {
+                return predefinedStringsTable[nanoString.index - 1].data;
+            }
+            else
+            {
+                const auto offset{ static_cast<type_t>(predefinedStringsTable.size()) };
+                return runtimeStringsTable[nanoString.index - offset - 1].data;
+            }
         }
 
         [[nodiscard]] constexpr auto operator*() const noexcept
