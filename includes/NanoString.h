@@ -4,6 +4,7 @@
 #include "warningsBlacklist.h"
 #include <string_view>
 #include <mutex>
+#include <algorithm>
 #pragma warning (pop)
 
 #include "FixedString.h"
