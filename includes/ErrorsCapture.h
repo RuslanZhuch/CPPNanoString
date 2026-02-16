@@ -8,12 +8,12 @@
 
 namespace nnstr
 {
-	constexpr void captureError(bool expr, [[maybe_unused]] std::string_view errorDesc)
+	inline void captureError(bool expr, [[maybe_unused]] std::string_view errorDesc)
 	{
-		assert(expr);
+	    assert(expr && "NanoString error");
 	}
-	constexpr void throwError([[maybe_unused]] std::string_view errorDesc)
+	inline void throwError([[maybe_unused]] std::string_view errorDesc)
 	{
-		assert(false);
+	    assert(false && "NanoString fatal error");
 	}
 };
